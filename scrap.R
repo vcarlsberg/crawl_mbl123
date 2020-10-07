@@ -30,7 +30,7 @@ for (page_number in 1:70){
         #      print(e)
       }
     )
-
+    
     
     if (is.null(link) == FALSE)
     {
@@ -99,6 +99,10 @@ for (page_number in 1:70){
       location_data<-str_replace_all(trimws(detail_location[2]), "\\s+", " ")
       penumpang_data<-as.integer(trimws(substr(product_detail,as.data.frame(str_locate_all(pattern ="Penumpang", product_detail))$end+1,as.data.frame(str_locate_all(pattern ="Kilometer", product_detail))$start-1)))
       
+      #xp_varian<-"/html/body/main/div[2]/div/div/article/div[2]/div[2]/div[6]/div/div[4]/span[2]"
+      #xp_varian<-webpage_product_detail %>% 
+      #  html_nodes(xpath = xp_varian) %>% 
+      #  html_text()
       
       mobil<-rbind(mobil,data.frame(harga=harga_data,
                                     tahun=tahun_data,
@@ -108,7 +112,7 @@ for (page_number in 1:70){
                                     warna=warna_data,
                                     mesin=mesin_data,
                                     merk=merk_data,
-                                    model=model_data,
+                                    model=strsplit(model_data," ")[[1]][1],
                                     penumpang=penumpang_data,
                                     lokasi=location_data
       )
@@ -125,7 +129,7 @@ for (page_number in 1:70){
 #           print("You can't take the square root of a character, silly!"))  
 
 write.csv(mobil, "file.csv", 
-           col.names=TRUE, row.names=TRUE, append=FALSE)
+          col.names=TRUE, row.names=TRUE, append=FALSE)
 
 #replace \n di variabel product_detail
 #str_replace_all(x, "[\r\n]" , "")
